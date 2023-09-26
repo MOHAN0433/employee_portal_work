@@ -36,9 +36,9 @@ exports.createPost = async (event) => {
 
   // Add fields from the request body if they exist
   fieldsToAdd.forEach((field) => {
-    if (requestBody[field]) {
+    //if (requestBody[field]) {
       params.Item[field] = requestBody[field] || null;
-    }
+    //}
   });
 
   try {
