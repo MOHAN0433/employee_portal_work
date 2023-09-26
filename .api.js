@@ -1,9 +1,9 @@
-// import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-// const db = new DynamoDBClient({ region: "ap-south-01" });
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+const db = new DynamoDBClient({ region: "ap-south-01" });
 
 //const db = require("./db");
 const {
-    DynamoDBClient,
+    //DynamoDBClient,
     GetItemCommand,
     PutItemCommand,
     DeleteItemCommand,
@@ -13,7 +13,7 @@ const {
   } = require('@aws-sdk/client-dynamodb');
   const { marshall, unmarshall } = require('@aws-sdk/util-dynamodb');
   
-  const db = new DynamoDBClient();
+  //const db = new DynamoDBClient();
   
   const getPost = async (event) => {
     const response = { statusCode: 200 };
