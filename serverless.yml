@@ -7,7 +7,7 @@ provider:
   environment:
     DYNAMODB_TABLE_NAME: ${self:custom.employeeTable}
 custom:
-  employeeTable: posts-table-${self:provider.stage}
+  employeeTable: employee-table-${self:provider.stage}
 plugins:
   - serverless-iam-roles-per-function
 functions:
