@@ -3,47 +3,57 @@ const { marshall } = require("@aws-sdk/util-dynamodb");
 
 const db = new DynamoDBClient({ region: "ap-south-1" });
 
-const createPost = async (event) => {
-  const response = { statusCode: 200 };
-  try {
-    const body = JSON.parse(event.body);
+exports.createPost = async (event) => {
+  const requestBody = JSON.parse(event.body);
+  const postId = uuid.v4();
 
-    // Check for required fields
-    if (!body.postId || !body.firstName || !body.lastName || !body.email) {
-      throw new Error('Required fields are missing.');
+  const params = {
+    TableName: 'employeeTable',
+    Item: {
+      postId,
+    },
+  };
+
+  // Define a list of fields that can be added
+  const fieldsToAdd = [
+    'jobTitle',
+    'totalExperience',
+    'employmentStartDateInHyniva',
+    'supervisorName',
+    'projectName',
+    'clientName',
+    'plannedJoiningDateInTheProject',
+    'plannedEndDateInTheProject',
+    'actualJoiningDateInTheProject',
+    'actualEndDateInTheProject',
+    'location',
+    'billability',
+    'remarksOnBillability',
+    'laptopSpecification',
+    'asset1',
+    'asset2'
+  ];
+
+  // Add fields from the request body if they exist
+  fieldsToAdd.forEach((field) => {
+    if (requestBody[field]) {
+      params.Item[field] = requestBody[field] || null;
     }
+  });
 
-    const params = {
-      TableName: process.env.DYNAMODB_TABLE_NAME,
-      Item: marshall({
-        postId: body.postId,
-        jobTitle: body.jobTitle,
-        firstName: body.firstName,
-        lastName: body.lastName,
-        email: body.email,
-        phoneNumber: body.phoneNumber || null,
-        userId: body.userId || null,
-        address: body.address || null,
-        gender: body.gender || null,
-        password: body.password || null,
-        confirmPassword: body.confirmPassword || null,
-      }),
+  try {
+    await dynamoDB.put(params).promise();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ postId }),
     };
-
-    await db.send(new PutItemCommand(params));
-    response.body = JSON.stringify({
-      message: 'Successfully created post.',
-    });
-  } catch (e) {
-    console.error(e);
-    response.statusCode = 500;
-    response.body = JSON.stringify({
-      message: 'Failed to create post.',
-      errorMsg: e.message,
-      errorStack: e.stack,
-    });
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Could not create the post' }),
+    };
   }
-  return response;
 };
 
 module.exports = {
