@@ -11,23 +11,9 @@ custom:
 plugins:
   - serverless-iam-roles-per-function
 functions:
-  getPost:
-    handler: api.getPost
-    name: get-post
-    memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
-      - http:
-          path: post/{postId}
-          method: GET
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "dynamodb:GetItem"
-        Resource: !GetAtt employeeTable.Arn
   createPost:
     handler: api.createPost
-    name: create-post
+    name: create-employee
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
@@ -38,48 +24,6 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:PutItem"
-        Resource: !GetAtt employeeTable.Arn
-  updatePost:
-    handler: api.updatePost
-    name: update-post
-    memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
-      - http:
-          path: post/{postId}
-          method: PUT
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "dynamodb:UpdateItem"
-        Resource: !GetAtt employeeTable.Arn
-  deletePost:
-    handler: api.deletePost
-    name: delete-post
-    memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
-      - http:
-          path: post/{postId}
-          method: DELETE
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "dynamodb:DeleteItem"
-        Resource: !GetAtt employeeTable.Arn
-  getAllPosts:
-    handler: api.getAllPosts
-    name: get-all-posts
-    memorySize: 128 # mb
-    timeout: 5 # seconds
-    events:
-      - http:
-          path: posts
-          method: GET
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "dynamodb:Scan"
         Resource: !GetAtt employeeTable.Arn
 resources:
   Resources:
