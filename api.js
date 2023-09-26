@@ -10,7 +10,8 @@ const createPost = async (event) => {
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
       Item: marshall({
-        jobTitle: body.id,
+        postId: body.postId,
+        jobTitle: body.jobTitle,
         firstName: body.firstName,
         lastName: body.lastName,
         email: body.email, // Fixed the attribute name
