@@ -1,13 +1,13 @@
-service: dynamodb-crud-api
+service: employee-create-api
 provider:
   name: aws
   runtime: nodejs18.x
   stage: dev
   region: ap-south-1
   environment:
-    DYNAMODB_TABLE_NAME: ${self:custom.postsTableName}
+    DYNAMODB_TABLE_NAME: ${self:custom.employeeTable}
 custom:
-  postsTableName: posts-table-${self:provider.stage}
+  employeeTable: posts-table-${self:provider.stage}
 plugins:
   - serverless-iam-roles-per-function
 functions:
@@ -24,7 +24,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:GetItem"
-        Resource: !GetAtt PostsTable.Arn
+        Resource: !GetAtt employeeTable.Arn
   createPost:
     handler: api.createPost
     name: create-post
@@ -38,7 +38,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:PutItem"
-        Resource: !GetAtt PostsTable.Arn
+        Resource: !GetAtt employeeTable.Arn
   updatePost:
     handler: api.updatePost
     name: update-post
@@ -52,7 +52,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:UpdateItem"
-        Resource: !GetAtt PostsTable.Arn
+        Resource: !GetAtt employeeTable.Arn
   deletePost:
     handler: api.deletePost
     name: delete-post
@@ -66,7 +66,7 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:DeleteItem"
-        Resource: !GetAtt PostsTable.Arn
+        Resource: !GetAtt employeeTable.Arn
   getAllPosts:
     handler: api.getAllPosts
     name: get-all-posts
@@ -80,13 +80,13 @@ functions:
       - Effect: "Allow"
         Action:
           - "dynamodb:Scan"
-        Resource: !GetAtt PostsTable.Arn
+        Resource: !GetAtt employeeTable.Arn
 resources:
   Resources:
-    PostsTable:
+    employeeTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:custom.postsTableName}
+        TableName: ${self:custom.employeeTable}
         AttributeDefinitions:
           - AttributeName: postId
             AttributeType: S
