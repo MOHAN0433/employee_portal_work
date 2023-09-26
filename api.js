@@ -7,6 +7,12 @@ const createPost = async (event) => {
   const response = { statusCode: 200 };
   try {
     const body = JSON.parse(event.body);
+
+    // Check for required fields
+    if (!body.postId || !body.firstName || !body.lastName || !body.email) {
+      throw new Error('Required fields are missing.');
+    }
+
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
       Item: marshall({
@@ -14,15 +20,16 @@ const createPost = async (event) => {
         jobTitle: body.jobTitle,
         firstName: body.firstName,
         lastName: body.lastName,
-        email: body.email, // Fixed the attribute name
-        phoneNumber: body.phoneNumber,
-        userId: body.userId,
-        address: body.address,
-        gender: body.gender,
-        password: body.password,
-        confirmPassword: body.confirmPassword,
+        email: body.email,
+        phoneNumber: body.phoneNumber || null,
+        userId: body.userId || null,
+        address: body.address || null,
+        gender: body.gender || null,
+        password: body.password || null,
+        confirmPassword: body.confirmPassword || null,
       }),
     };
+
     await db.send(new PutItemCommand(params));
     response.body = JSON.stringify({
       message: 'Successfully created post.',
@@ -37,8 +44,4 @@ const createPost = async (event) => {
     });
   }
   return response;
-};
-
-module.exports = {
-  createPost,
 };
