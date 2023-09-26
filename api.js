@@ -45,3 +45,7 @@ const createPost = async (event) => {
   }
   return response;
 };
+
+module.exports = {
+  createPost
+};
