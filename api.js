@@ -1,7 +1,7 @@
 const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
 const { marshall } = require("@aws-sdk/util-dynamodb");
 
-const db = new DynamoDBClient({ region: "ap-south-1" }); // Corrected region name
+const db = new DynamoDBClient({ region: "ap-south-1" });
 
 const createPost = async (event) => {
   const response = { statusCode: 200 };
@@ -9,9 +9,20 @@ const createPost = async (event) => {
     const body = JSON.parse(event.body);
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
-      Item: marshall(body || {}),
+      Item: marshall({
+        jobTitle: body.id,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        email: body.email, // Fixed the attribute name
+        phoneNumber: body.phoneNumber,
+        userId: body.userId,
+        address: body.address,
+        gender: body.gender,
+        password: body.password,
+        confirmPassword: body.confirmPassword,
+      }),
     };
-    await db.send(new PutItemCommand(params)); // Use await here to make sure the PutItem operation is complete
+    await db.send(new PutItemCommand(params));
     response.body = JSON.stringify({
       message: 'Successfully created post.',
     });
