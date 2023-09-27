@@ -16,7 +16,7 @@ plugins:
 functions:
   createEmployee:
     handler: api.createEmployee
-    name: create-employee
+    name: create-emp-post
     memorySize: 128 # mb
     timeout: 5 # seconds
     events:
