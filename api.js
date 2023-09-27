@@ -9,7 +9,7 @@ const createPost = async (event) => {
     const body = JSON.parse(event.body);
 
     // Check for required fields
-    if (!body.postId || !body.firstName || !body.lastName || !body.email) {
+    if (!body.jobTitle || !body.totalExperience || !body.projectName || !body.billability) {
       throw new Error('Required fields are missing.');
     }
 
