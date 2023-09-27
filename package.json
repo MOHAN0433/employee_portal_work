@@ -1,7 +1,7 @@
 {
-    "name": "dynamodb-crud-api-gateway",
+    "name": "employee-portal",
     "version": "1.0.0",
-    "description": "DynamoDB CRUD API using API Gateway and AWS Lambda",
+    "description": "Employee Deails saving",
     "main": "index.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1"
