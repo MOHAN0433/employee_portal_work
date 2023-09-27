@@ -3,7 +3,7 @@ const { marshall } = require("@aws-sdk/util-dynamodb");
 
 const db = new DynamoDBClient({ region: "ap-south-1" });
 
-const createPost = async (event) => {
+const createEmployee = async (event) => {
   const response = { statusCode: 200 };
   try {
     const body = JSON.parse(event.body);
@@ -17,22 +17,22 @@ const createPost = async (event) => {
       TableName: process.env.DYNAMODB_TABLE_NAME,
       Item: marshall({
         postId: body.postId,
-        jobTitle: body.jobTitle || null,
-        totalExperience: body.totalExperience || null,
-        employmentStartDateInHyniva: body.employmentStartDateInHyniva || null,
-        supervisorName: body.supervisorName || null,
-        projectName: body.projectName || null,
-        clientName: body.clientName || null,
-        plannedJoiningDateInTheProject: body.plannedJoiningDateInTheProject || null,
-        plannedEndDateInTheProject: body.plannedEndDateInTheProject || null,
-        actualJoiningDateInTheProject: body.actualJoiningDateInTheProject || null,
-        actualEndDateInTheProject: body.actualEndDateInTheProject || null,
-        location: body.location || null,
-        billability: body.billability || null,
-        remarksOnBillability: body.remarksOnBillability || null,
-        laptopSpecification: body.laptopSpecification || null,
-        asset1: body.asset1 || null,
-        asset2: body.asset2 || null,
+        jobTitle: body.jobTitle,
+        totalExperience: body.totalExperience,
+        employmentStartDateInHyniva: body.employmentStartDateInHyniva,
+        supervisorName: body.supervisorName,
+        projectName: body.projectName,
+        clientName: body.clientName,
+        plannedJoiningDateInTheProject: body.plannedJoiningDateInTheProject,
+        plannedEndDateInTheProject: body.plannedEndDateInTheProject,
+        actualJoiningDateInTheProject: body.actualJoiningDateInTheProject,
+        actualEndDateInTheProject: body.actualEndDateInTheProject,
+        location: body.location ,
+        billability: body.billability ,
+        remarksOnBillability: body.remarksOnBillability ,
+        laptopSpecification: body.laptopSpecification ,
+        asset1: body.asset1 ,
+        asset2: body.asset2 ,
       }),
     };
 
@@ -53,5 +53,5 @@ const createPost = async (event) => {
 };
 
 module.exports = {
-  createPost
+  createEmployee
 };

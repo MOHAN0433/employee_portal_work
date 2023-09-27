@@ -1,3 +1,4 @@
+# Api gateway name
 service: employee-create-api
 provider:
   name: aws
@@ -6,13 +7,15 @@ provider:
   region: ap-south-1
   environment:
     DYNAMODB_TABLE_NAME: ${self:custom.employeeTable}
+# define a custom variable for dynamodb table name
 custom:
   employeeTable: employee-table-${self:provider.stage}
 plugins:
   - serverless-iam-roles-per-function
+  # lambda function name and configuration
 functions:
-  createPost:
-    handler: api.createPost
+  createEmployee:
+    handler: api.createEmployee
     name: create-employee
     memorySize: 128 # mb
     timeout: 5 # seconds
@@ -25,6 +28,7 @@ functions:
         Action:
           - "dynamodb:PutItem"
         Resource: !GetAtt employeeTable.Arn
+# aws resource that is dynamodb
 resources:
   Resources:
     employeeTable:
