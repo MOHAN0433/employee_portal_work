@@ -9,9 +9,9 @@ const createPost = async (event) => {
     const body = JSON.parse(event.body);
 
     // Check for required fields
-    // if (!body.postId || !body.firstName || !body.lastName || !body.email) {
-    //   throw new Error('Required fields are missing.');
-    // }
+    if (!body.postId || !body.firstName || !body.lastName || !body.email) {
+      throw new Error('Required fields are missing.');
+    }
 
     const params = {
       TableName: process.env.DYNAMODB_TABLE_NAME,
